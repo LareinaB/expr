@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正则初始</title>
+</head>
+<body>
+<script>
+    // 1.什么是 正则： 一个规则，
+    // 1) 匹配 用来判断字符串是否符合制定的规则
+    // ->test  reg.test(str) true/false
+    var reg = /\d/; // 包含一个0-1之间的数字
+    console.log(reg.test("hello")); // => false
+    console.log(reg.test("1")); // => true
+    console.log(reg.test("hello 2019")); // => true
+    // 2) 捕获 把字符串中符合正则规则的内容捕获到 exec：reg.exec(str)
+    console.log(reg.exec("hello")); // => null
+    console.log(reg.exec("1")); // => ["1", index: 0, input: "1", groups: undefined]
+    console.log(reg.exec("hello 2019")); // => ["2", index: 6, input: "hello 2019", groups: undefined]
+
+    // 2.如何创建
+    // 字面量方式
+    var reg1 = /\d/;
+    // 实例创建
+    var reg2 = new RegExp("/\\d/");
+    // 两种创建方式有区别（其他的没有）
+    // 3.如何学习 面向对象思想学习
+    console.log(RegExp.prototype)
+
+</script>
+</body>
+</html>

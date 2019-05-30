@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>检测数据类型</title>
+</head>
+<body>
+<script type="text/javascript">
+    //1. typeof 用来检测数据类型的运算符
+    // -> 返回的是字符串 包含了数据类型
+    // "number" "string" "boolean" "undefined" "function" "object"
+    console.log(typeof typeof function () {}); // "string"
+    // 局限性：
+    // -> typeof null -> "object"
+    // -> 不能细分object是数组，正则还是对象中的其它值  返回结果都是"object"
+
+    // exp 1.
+    function fn(um1, num2) {
+        if(typeof num2 === "undefined"){
+            num2 = 0
+        }
+        // num2 = num2 || 0  这种需要默认传入就是一个数字  若传入false 第一种情况就比较严谨
+    }
+    fn(10);
+
+    // exp 2.
+    function fn1(callback) {
+        typeof callback === "function" ? callback() : null;
+        callback && callback()
+    }
+    fn1(function () {
+
+    });
+
+    //2. instanceof 检测一个实例是否属于某个类
+
+    var obj = [12, 34];
+    console.log(obj instanceof Array);
+     // 弥补typeof的缺陷
+    // 局限性：
+    // 1.不能检测和处理字面量方式创建出来的基本数据类型
+    // -> 基本数据类型字面量创建和实例创建出来的结果有区别 只有实例创建出来的结果才
+    // 是标准的对象数据类型值，也是标准的Number这个类的实例； 字面量方式创建出来的
+    // 结果不失严谨的实例，js的松散特点允许这样的实例可以使用Number.prototype上提供的方法
+    // 1 instanceof Number => false
+    // new Number(1) instanceof Number => true
+
+    // 2.instanceof 特性：只要在当前实例的原型链上，检测的结果都是true
+    var ary = [];
+    console.log(ary instanceof Array); //=> true
+    console.log(ary instanceof Object); //=> true
+
+    function fn2() {
+    }
+    console.log(fn2 instanceof Function); //=> true
+    console.log(fn2 instanceof Object); //=> true
+    // -> 在类的原型继承中，检测出的来的结果未必准确
+    function fn3() {
+    }
+    fn3.prototype = new Array; //->原型继承：让子类的原型等于父类的一个实例
+    var f = new fn3;
+    console.log(f instanceof Array); //=>true
+
+    //3. constructor 构造函数  作用和instanceof
+    //-> 可以处理基本数据类型
+    // var obj = [];
+    console.log(obj.constructor === Array); //=>true
+    console.log(obj.constructor === RegExp); //=>false
+    var num = 1;
+    console.log(num.constructor === Number); //=>true
+
+    var reg = /^$/;
+    // 先找私有，没有再找原型链上的，有就停止
+    console.log(reg.constructor === RegExp); //=>true
+    console.log(reg.constructor === Object); //=>false
+
+    // 局限性：可以重写类的原型，在重写过程中可能会覆盖原来的constructor，这样检测结果不准确
+    function fn4() {
+    }
+    fn4.prototype = new Array; //->原型继承：让子类的原型等于父类的一个实例
+    var f1 = new fn4;
+    console.log(f1.constructor); //=>Array 但f1是一个函数
+    //-> 对于特殊数据类型null和undefined，分别所属Null，Undefined，但浏览器不允许外部访问使用
+
+
+    //4. Object.prototype.toString.call() 最准确最常用
+    // (浏览器内置所有对象数据类型的基类)  引用数据类型
+    // 所有自定义或者内置类都是函数数据类型  函数类
+    //-> 首先获取Object原型上的toString方法，让方法执行，并且改变方法中的this指向
+
+    //Number，String，Boolean，Array，RegExp，Date，Function原型上的toString都是转化成字符串（仅仅）
+    //Object.prototype.toString不是
+    //({name:"珠峰"}).toString() =》"[object Object]"
+    //Math.toString()  =》"[object Math]"
+
+    //-> 乍一看是转化为字符串，但以下不仅仅转化
+    console.log((1).toString()); //-》"1"
+    // ->Number.prototype.toString() 还可以加参数表示转化成几进制之后的字符串
+    console.log((1).__proto__.__proto__.toString());
+    //->Object.prototype.toString() 不只是转化成字符串
+    //它的作用是返回当前方法的执行主体（this）所属的类的详细信息
+    var obj = {name: "lubing"};
+    console.log(obj.toString()); //this是obj 返回就是obj所属类的信息->"[object,Object]"
+    // object代表当前实例是对象数据类型（固定的）,Object代表obj是一个Object实例
+    console.log(Math.toString()); // "[object Math]" this是Math
+
+    //借用这一特点判断数据类型，call()改变this指向  没有他解决不了的类型哈哈哈
+    var arr = [];
+    console.log(Object.prototype.toString.call(arr)); //-》[object Array]
+
+    console.log(Object.prototype.toString.call(1)); //[object Number]
+    console.log(Object.prototype.toString.call("lubing")); // [object String]
+    console.log(Object.prototype.toString.call(true)); // [object Boolean]
+    console.log(Object.prototype.toString.call(null)); // [object Null]
+    console.log(Object.prototype.toString.call(undefined)); // [object Undefined]
+    console.log(Object.prototype.toString.call(function(){})); // [object Function]
+    console.log(Object.prototype.toString.call(new Date)); // [object Date]
+    console.log(Object.prototype.toString.call(/^$/)); // [object RegExp]
+
+    var arry = []
+    var reg = /^\[object Array\]$/
+    console.log(reg.test(Object.prototype.toString.call(arry)))  //true
+
+</script>
+</body>
+</html>
