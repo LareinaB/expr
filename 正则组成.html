@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正则组成</title>
+</head>
+<body>
+<script type="text/javascript">
+    var reg = /^\d/; // 包含一个0-9之间的数字
+    // 元字符
+    // 每个正则表达式都是由元字符和修饰符组成的
+    // [元字符] / /之间具有意义的一些字符
+    // 1. 具有特殊意义的元字符
+    // \: 转义字符 转义后面字符所代表的含义
+    // ^ $: 以某一个元字符开始或结尾, 不占位
+    // \n: 匹配一个换行符
+
+    // .: 除了\n以外的任意字符
+    reg = /^0.2$/;  // 以0开头2结尾，中间可以是除了\n的任意字符
+    console.log(reg.test("0.2"));  //=> true
+    console.log(reg.test("0-2"));  //=> true
+    reg = /^0\.2$/;
+    console.log(reg.test("0.2"));  //=> true
+    console.log(reg.test("0-2"));  //=> false
+    // (): 分组 -> 把一个大正则划分成几个小正则
+    reg = /^(\d+)HelloWorld(\d+)$/;
+
+    //x|y: x或y中的一个
+    //[xyz]: 三者之一
+    //[^xyz]: 除了三个中的任何一个
+    //[a-z]: a-z之间的任何一个
+    //[^a-z]: 除了a-z之间的任何一个
+    //\d: 一个0-9之间的任何一个数字   \D: 除了0-9之间的任何一个数字
+    //\b: 一个边界符
+    //\w: 数字字母下划线中的任意 === [0-9a-zA-Z_]
+    //\s: 一个空白字符  空格  制表符（tab键4个空格） 换页符
+
+
+    console.log(reg.test("HelloWorld 2019")); //=> true
+    reg = /^\d$/; //只能是0-9之间的一个数字
+    console.log(reg.test("HelloWorld 2019")); //=> false
+    console.log(reg.test("1"));  //=> true
+    console.log(reg.test("120"));  //=> false
+
+    // 2. 代表出现次数的两次元字符
+    // *： 出现0-多次
+    // +: 1-多次（至少一次）
+    // ?: 出现0或1次
+    //{n}: 出现n次
+    //{n,}: 出现n到多次
+    //{n,m}: 出现n到m次
+
+    var reg1 = /^\d+$/;
+    console.log(reg1.test("2019"));  //=> true
+
+    // 简单验证手机号的正则 11位数字 第一位是1
+    var regPho = /^1\d{10}$/;
+
+
+</script>
+</body>
+</html>
