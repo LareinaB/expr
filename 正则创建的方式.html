@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 字面量方式中//之间包起来的内容都是元字符，有的具有特殊意义。
+    // 大部分本身都是代表本身含义的普通元字符
+    var name = "HelloWorld";
+    var reg = /^\d+"+name+"\d+$/g;
+    // 多个数字开头多个"nam多个e多个数字结尾
+    console.log(reg.test("20HelloWorld19"));  // false
+    // 对于需要字符串拼接的只能使用实例创建方式 需要转义
+
+    var rep = new RegExp("^\\d+" + name + "\\d+$", "g");
+    console.log(reg.test("20HelloWorld19"));  // true
+
+    // 字面量
+    var reg1 = /\d+/;
+    // 实例创建
+    var reg2 =new RegExp("");
+
+    // 1) 字面量不能进行字符串拼接，实例创建方式可以
+    // 2） 实例创建方式中\d之类（需要自己探索）需要转义即为\\d
+</script>
+</body>
+</html>
