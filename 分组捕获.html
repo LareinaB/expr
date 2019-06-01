@@ -26,6 +26,18 @@
     var str = "610528199602075826";
     console.log(reg2.exec(str));
     // ["610528199602075826", "61", "0528", "1996", "02", "07", "58", "2", "6", index: 0]
+    console.log(str.match(reg2)); // 结果一样
+
+    var reg3 = /hello(\d+)/g;
+    var str1 = "hello2017hello2018hello2019";
+    // exec执行3次，每次不仅可以捕获大正则匹配的内容， 还可以捕获第一个分组匹配的内容
+    console.log(reg3.exec(str1)); // ["hello2017", "2017",...]
+    console.log(reg3.exec(str1)); // ["hello2018", "2018",...]
+    console.log(reg3.exec(str1)); // ["hello2019", "2019",...]
+
+    // match 只有一次性捕获到的大正则里的内容
+    console.log(str1.match(reg3)); // ["hello2017", "hello2018", "hello2019"]
+
 
 </script>
 
