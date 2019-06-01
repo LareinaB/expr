@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    // replace: 把原有的字符替换成新的字符
+    // 不使用正则每执行一次只能替换一个 每次也是从头开始 exec的懒惰性及其解决办法相似
+    var str = "hello2018hello2019";
+    //str = str.replace("hello", "HelloWorld");
+    //console.log(str);
+    // 第一项放正则
+    //str = str.replace(/hello/g, "HelloWorld");
+    //console.log(str);
+
+    // 实现原理：
+    // 和exec一样，把所有和正则匹配的都捕获到，然后把捕获的内容替换成需要替换的新内容
+    // 1）/hello/g 按照这个正则把str中所有可以匹配的都捕获到
+    // 2）统一替换成新的字符串
+
+    // 这句话就是上面替换那句实现的原理
+    str = str.replace(/hello/g, function () {
+
+        console.log(arguments[0]); // 跟exec执行几次的结果一样  每次替换之后的结果
+        // console.log(arguments[1]); // 每次执行之后正则捕获的第一个分组的结果
+        console.log(RegExp.$1);  // 同上
+        //console.log(("ok")); // 输出两次 即function执行了两次 因为全局能够匹配的有两次
+        return "HelloWorld";
+    });
+
+    //RegExp.$1 获取第一个分组捕获的内容
+
+    //知识点
+    // 1.匿名函数执行的次数=跟捕获到的跟正则匹配的字符串的数量
+    // 2.每次执行匿名函数 传递的参数值arguments和我们自己通过exec捕获到的结果是类似的
+    //   即使正则有分组
+    // 3.return "HelloWorld"; 返回的结果是啥，就把当前大正则捕获的内容替换成啥
+</script>
+</body>
+</html>
