@@ -6,14 +6,40 @@
 </head>
 <body>
 <script type="text/javascript">
-    var str = "20190601"; //-> 贰零壹玖零陆零壹
-    var ary = ["零","壹","贰","叁","肆","伍","陆","柒","捌","玖"];
-    str = str.replace(/\d/g, function () {
+    // 1. 替换数字
+    var str1 = "20190601"; //-> 贰零壹玖零陆零壹
+    var ary1 = ["零","壹","贰","叁","肆","伍","陆","柒","捌","玖"];
+    str1 = str1.replace(/\d/g, function () {
         // var num = arguments[0]
         // var str = ary[num];
         // return str;
-        return ary[arguments[0]];
+        return ary1[arguments[0]];
     });
+
+    // 2. 获取一个字符串中出现次数最多的字符
+    // 假设法获取最大值
+    // 1). 获取每一个字符出现的次数
+    var str2 = "i live my life alone, without anyone i really can talk to.";
+    var obj = {};
+    str2.replace(/[a-z]/ig, function () {
+        var val = arguments[0];
+        obj[val] >= 1 ? obj[val] += 1:obj[val] = 1;
+    });
+
+    // 2).获取最多出现的次数
+    var maxNum = 0;
+    for (var key in obj){
+        obj[key] > maxNum ? maxNum = obj[key] : null;
+    }
+    console.log(maxNum);
+    // 3).把所有符合出现次数为maxNum的都获取到
+    var ary = [];
+    for (var key in obj){
+        obj[key] === maxNum ? ary.push(key) : null;
+    }
+    console.log(ary);
+
+    // 3.
 
 </script>
 </body>
