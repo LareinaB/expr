@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    //exec -> 正则的捕获
+    // 先进行默认的匹配 如没有，捕获结果为null；匹配到的内容才能捕获到
+    // 捕获的内容格式
+    //1）捕获到的内容是一个数组
+    // 第一项是大正则捕获的内容
+    // index:捕获内容再字符串中开始的索引位置
+    // input:捕获的原始字符串
+    //2 正则捕获的特点
+    // 1）懒惰性 不管捕获几次都捕获第一个匹配的内容，
+    // lastIndex: 正则每一次捕获在字符串中开始查找的位置 默认为0
+    // 在不进行任何处理的情况下，不管第几次捕获都会从0开始
+    // 2）解决懒惰性  在正则的末尾加g 全局 改变lastIndex值
+    // 三个修饰符 g(global)全局  i(ignoreCase)忽略大小写  m(multiline)多行匹配
+    // 不要忘记加g  不然就死循环警告
+    // 4）贪婪性 正则每次都是按照匹配的最长结果捕获
+    // 5）解决懒惰性 ->在量词元字符后面添加一个?
+
+    // ？在正则中有很多的作用
+    // 1）普通元字符后面表示该元字符出现0-1次
+    // 2）在量词元字符后面表示取消捕获时候的贪婪性
+    var reg = /\d+?/g;
+    var str = "HelloWorld2019GoodBy2018And2017";
+    var ary = [];
+    var res = reg.exec(str);
+    //console.log(res);  //0: ["2019"... ]
+    // while (res){
+    //     ary.push(res[0]);
+    //     res = reg.exec(str);
+    // }
+    // console.log(ary);
+
+    //3. 字符串中的match方法 把所有和正则匹配的字符都获取到
+    ary = str.match(reg);
+    console.log(ary);
+    // 分组情况下，match只能捕获到大正则匹配的内容 对于小正则无法捕获
+</script>
+</body>
+</html>
