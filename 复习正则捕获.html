@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正则捕获专题</title>
+</head>
+<body>
+<script type="text/javascript">
+    // exec正则用来捕获的一个方法
+    // lastIndex 默认永远为0 表示正则捕获开始的索引 不管执行几次都会从头开始
+    // g全局使得每次执行完lastIndex都会变为当前捕获之后的后一个索引位置
+    var reg = /\d+?/g;
+    var str = "Hello2018Hello2019";
+    // console.log(reg.exec(str));
+    var res = reg.exec(str),
+        ary = [];
+    while(res){
+        ary.push(res[0]);
+        res = reg.exec(str);
+    }
+    // console.log(ary);
+
+    // match 字符串方法 用来匹配正则的一个方法 原理也是改变了lastIndex值  替换了while循环
+    // 局限 一次性把匹配大正则的都捕获到 不能捕获分组中的匹配内容
+    var reg1 = /\d+?/g;
+    var str1 = "Hello2018Hello2019";
+    var ary1 = str1.match(reg1);
+    // console.log(ary1);
+
+    // 还原match大致实现过程
+    String.prototype.match = function (reg) {
+        // 这里的this就是str 原型上的方法中的this都是当前的一个实例
+        var ary = [];
+        var res = reg.exec(this);
+        while(res){
+            ary.push(res[0]);
+            res = reg.exec(this);
+        }
+        return ary;
+    };
+
+    //分组捕获
+    // 分组的作用：
+    // 1. 改变优先级
+    // 2. 在正则捕获的时候 添加分组 可以捕获到分组中匹配的内容
+    var str2 = "my name is {0},my age is {1},i come from {2},i love {3}.";
+    var arr = ["Mike", 23, "a virtual world", "Javascript"]
+    // {0} --> ary[0] {1} --> ary[1] {2} --> ary[2] {3} --> ary[3]
+    // 捕获的时候不仅要获取{0}，还要获取里面的数字 并且exec执行的时候要同时获取这两个
+    // (?:xxx) 分组只匹配 不捕获
+    var reg2 = /{(\d+)}/g;
+    // var res2 = reg2.exec(str2); // res2[1] 就是小正则捕获的内容 arr[res2[1]]就是对应数组中的内容 替换
+
+    // replace 字符串替换 执行一次至替换一个 为了替换所有，要用正则来处理 全局修饰符g
+    // 把所有正则匹配到的内容都进行获取和替换  lastIndex一直在改变
+    // str = str.replace(reg2, "licai"); // 在整个字符串中，把符合的都替换成licai
+    str2 = str2.replace(reg2, function () {
+        return arr[arguments[1]];
+    });
+    console.log(str2);
+
+    // 格式化时间
+</script>
+</body>
+</html>
