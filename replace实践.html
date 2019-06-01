@@ -7,39 +7,78 @@
 <body>
 <script type="text/javascript">
     // 1. 替换数字
-    var str1 = "20190601"; //-> 贰零壹玖零陆零壹
-    var ary1 = ["零","壹","贰","叁","肆","伍","陆","柒","捌","玖"];
-    str1 = str1.replace(/\d/g, function () {
-        // var num = arguments[0]
-        // var str = ary[num];
-        // return str;
-        return ary1[arguments[0]];
-    });
+    // var str1 = "20190601"; //-> 贰零壹玖零陆零壹
+    // var ary1 = ["零","壹","贰","叁","肆","伍","陆","柒","捌","玖"];
+    // str1 = str1.replace(/\d/g, function () {
+    //     // var num = arguments[0]
+    //     // var str = ary[num];
+    //     // return str;
+    //     return ary1[arguments[0]];
+    // });
 
     // 2. 获取一个字符串中出现次数最多的字符
     // 假设法获取最大值
     // 1). 获取每一个字符出现的次数
-    var str2 = "i live my life alone, without anyone i really can talk to.";
-    var obj = {};
-    str2.replace(/[a-z]/ig, function () {
-        var val = arguments[0];
-        obj[val] >= 1 ? obj[val] += 1:obj[val] = 1;
-    });
+    // var str2 = "i live my life alone, without anyone i really can talk to.";
+    // var obj1 = {};
+    // str2.replace(/[a-z]/ig, function () {
+    //     var val = arguments[0];
+    //     obj1[val] >= 1 ? obj1[val] += 1:obj1[val] = 1;
+    // });
 
     // 2).获取最多出现的次数
-    var maxNum = 0;
-    for (var key in obj){
-        obj[key] > maxNum ? maxNum = obj[key] : null;
-    }
-    console.log(maxNum);
+    // var maxNum = 0;
+    // for (var key in obj1){
+    //     obj1[key] > maxNum ? maxNum = obj1[key] : null;
+    // }
+    // console.log(maxNum);
     // 3).把所有符合出现次数为maxNum的都获取到
-    var ary = [];
-    for (var key in obj){
-        obj[key] === maxNum ? ary.push(key) : null;
-    }
-    console.log(ary);
+    // var ary = [];
+    // for (var key in obj){
+    //     obj[key] === maxNum ? ary.push(key) : null;
+    // }
+    // console.log(ary);
 
-    // 3.
+    // 3. 格式化时间字符串
+    var strDate = "2019-06-01 22:14:00";
+    //2019年06月01日 22时14分00秒
+    // new Date(strDate); // ie浏览器不识别- 得替换
+    // 设置好格式 把数组中的对应项替换到指定区域
+    var resStr = "{0}年{1}月{2}日 {3}时{4}分{5}秒";
+    var aryDate = [];
+    var reg = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2}) +(\d{1,2}):(\d{1,2}):(\d{1,2})$/g;
+    strDate.replace(reg, function () {
+        aryDate = [].slice.call(arguments);
+        aryDate = aryDate.slice(1,7);
+    });
+    reg = /^{(\d+)}$/g;
+    resStr = resStr.replace(reg, function () {
+        console.log(arguments[1]);
+        var num = arguments[1], val = aryDate[num];
+        val.length === 1 ? val = "0" + val : void 0;
+        return val;
+    });
+    console.log(resStr);
+    // 4. 所有单词首字母大写
+
+    // 5. 解析url参数 queryURLParameter
+    // var str4 = "http://rs.xidian.edu.cn/forum.php?mod=forumdisplay&fid=110&filter=typeid&typeid=68";
+    // var reg4 = /([^?&=]+)=([^?&=]+)/g;
+    // var obj = {};
+    //
+    // // 方式1
+    // str4.replace(reg4, function(){
+    //     obj[arguments[1]] = arguments[2];
+    // });
+    //
+    // // 方式2
+    // var res = reg4.exec(str4);
+    // while(res){
+    //     obj[res[1]] = res[2];
+    //     res = reg4.exec(str4);
+    // }
+    // console.log(obj);
+
 
 </script>
 </body>
